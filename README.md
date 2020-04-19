@@ -10,7 +10,7 @@
 
 ## :rocket: Projeto
 
-:coffee: Resoluções dos desafios proposto na Aceleração Java Codenation.
+:coffee: Resoluções dos desafios propostos na Aceleração Java Codenation.
 
 ## :computer: Tecnologias
 
