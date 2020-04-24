@@ -7,8 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class GetCaptainTest {
@@ -49,7 +48,7 @@ public class GetCaptainTest {
 
         corinthians.setCaptain(frank);
 
-        Result<Long> result = getCaptain.execute(corinthians.getId());
+        Result<Optional<Long>> result = getCaptain.execute(corinthians.getId());
 
         assertTrue(result.isSuccess());
     }
@@ -62,25 +61,36 @@ public class GetCaptainTest {
 
         corinthians.setCaptain(frank);
 
-        Result<Long> result = getCaptain.execute(corinthians.getId());
+        Result<Optional<Long>> result = getCaptain.execute(corinthians.getId());
 
         assertTrue(result.getValue().isPresent());
-        assertEquals(frank.getId(), result.getValue().get());
+        assertTrue(result.getValue().get().isPresent());
+        assertEquals(frank.getId(), result.getValue().get().get());
     }
 
     @Test
     public void execute_when_team_was_not_found_should_return_the_fail_result() {
-        Result<Long> result = getCaptain.execute(corinthians.getId());
+        Result<Optional<Long>> result = getCaptain.execute(corinthians.getId());
 
         assertTrue(result.isFailure());
     }
 
     @Test
-    public void execute_when_team_does_not_have_a_captain_should_return_the_fail_result() {
+    public void execute_when_team_does_not_have_a_captain_should_return_the_ok_result() {
         when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
 
-        Result<Long> result = getCaptain.execute(corinthians.getId());
+        Result<Optional<Long>> result = getCaptain.execute(corinthians.getId());
 
-        assertTrue(result.isFailure());
+        assertTrue(result.isSuccess());
+    }
+
+    @Test
+    public void execute_when_team_does_not_have_a_captain_should_return_an_optional_empty() {
+        when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
+
+        Result<Optional<Long>> result = getCaptain.execute(corinthians.getId());
+
+        assertTrue(result.getValue().isPresent());
+        assertFalse(result.getValue().get().isPresent());
     }
 }

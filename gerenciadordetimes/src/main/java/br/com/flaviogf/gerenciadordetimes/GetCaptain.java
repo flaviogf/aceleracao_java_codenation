@@ -9,7 +9,7 @@ public class GetCaptain {
         this.teamRepository = teamRepository;
     }
 
-    public Result<Long> execute(Long teamId) {
+    public Result<Optional<Long>> execute(Long teamId) {
         Optional<Team> optionalTeam = teamRepository.findOne(teamId);
 
         if (!optionalTeam.isPresent()) {
@@ -21,11 +21,13 @@ public class GetCaptain {
         Optional<Player> optionalCaptain = team.getCaptain();
 
         if (!optionalCaptain.isPresent()) {
-            return Result.fail("Team does not have a captain.");
+            return Result.ok(Optional.empty());
         }
 
         Player captain = optionalCaptain.get();
 
-        return Result.ok(captain.getId());
+        Long id = captain.getId();
+
+        return Result.ok(Optional.of(id));
     }
 }
