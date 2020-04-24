@@ -43,7 +43,7 @@ public class GetPlayerNameTest {
     }
 
     @Test
-    public void execute_when_the_player_does_not_exist_should_return_an_optional_empty() {
+    public void execute_when_the_player_does_not_exist_should_return_an_empty_optional() {
         Optional<String> playerName = getPlayerName.execute(PLAYER_ID);
 
         assertFalse(playerName.isPresent());

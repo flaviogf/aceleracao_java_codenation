@@ -85,7 +85,7 @@ public class GetCaptainTest {
     }
 
     @Test
-    public void execute_when_team_does_not_have_a_captain_should_return_an_optional_empty() {
+    public void execute_when_team_does_not_have_a_captain_should_return_an_empty_optional() {
         when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
 
         Result<Optional<Long>> result = getCaptain.execute(corinthians.getId());

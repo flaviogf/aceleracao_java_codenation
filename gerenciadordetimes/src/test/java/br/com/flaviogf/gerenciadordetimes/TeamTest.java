@@ -23,32 +23,32 @@ public class TeamTest {
     private static final BigDecimal BALANCE = new BigDecimal(100_000);
 
     private Player frank;
-    private Team team;
+    private Team corinthians;
 
     @Before
     public void setUp() {
         frank = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
-        team = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
+        corinthians = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
     }
 
     @Test
     public void add_player_should_add_the_player_to_the_team() {
-        team.add(frank);
+        corinthians.add(frank);
 
-        assertEquals(1, team.getCountPlayers());
+        assertEquals(1, corinthians.getCountPlayers());
 
-        assertTrue(team.getPlayer(frank.getId()).isPresent());
-        assertEquals(frank, team.getPlayer(frank.getId()).get());
+        assertTrue(corinthians.getPlayer(frank.getId()).isPresent());
+        assertEquals(frank, corinthians.getPlayer(frank.getId()).get());
 
         assertTrue(frank.getTeam().isPresent());
-        assertEquals(team, frank.getTeam().get());
+        assertEquals(corinthians, frank.getTeam().get());
     }
 
     @Test
     public void set_captain_should_set_the_current_captain_of_the_team() {
-        team.setCaptain(frank);
+        corinthians.setCaptain(frank);
 
-        assertTrue(team.getCaptain().isPresent());
-        assertEquals(frank, team.getCaptain().get());
+        assertTrue(corinthians.getCaptain().isPresent());
+        assertEquals(frank, corinthians.getCaptain().get());
     }
 }

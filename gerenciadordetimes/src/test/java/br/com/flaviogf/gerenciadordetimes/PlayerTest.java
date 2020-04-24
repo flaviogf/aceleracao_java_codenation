@@ -23,19 +23,19 @@ public class PlayerTest {
     private static final BigDecimal BALANCE = new BigDecimal(100_000);
 
     private Team corinthians;
-    private Player player;
+    private Player frank;
 
     @Before
     public void setUp() {
         corinthians = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
-        player = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
+        frank = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
     }
 
     @Test
     public void join_should_join_the_player_to_the_team() {
-        player.join(corinthians);
+        frank.join(corinthians);
 
-        assertTrue(player.getTeam().isPresent());
-        assertEquals(corinthians, player.getTeam().get());
+        assertTrue(frank.getTeam().isPresent());
+        assertEquals(corinthians, frank.getTeam().get());
     }
 }
