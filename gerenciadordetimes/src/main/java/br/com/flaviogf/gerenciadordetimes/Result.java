@@ -3,7 +3,7 @@ package br.com.flaviogf.gerenciadordetimes;
 public class Result {
     private final String error;
 
-    private Result(String error) {
+    public Result(String error) {
         this.error = error;
     }
 
@@ -23,7 +23,7 @@ public class Result {
         return new Result("");
     }
 
-    public static Result fail(String error) {
+    public static Result failure(String error) {
         return new Result(error);
     }
 }

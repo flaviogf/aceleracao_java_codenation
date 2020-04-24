@@ -1,41 +1,25 @@
 package br.com.flaviogf.gerenciadordetimes;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Team {
     private final Long id;
     private final String name;
     private final LocalDate creationDate;
-    private final String mainUniformColor;
-    private final String secondaryUniformColor;
+    private final String mainColor;
+    private final String secondaryColor;
+    private final Map<Long, Player> players = new HashMap<>();
 
-    public Team(Long id, String name, LocalDate creationDate, String mainUniformColor, String secondaryUniformColor) {
-        if (id == null) {
-            throw new IllegalArgumentException("id must be not null");
-        }
-
-        if (name == null) {
-            throw new IllegalArgumentException("name must be not null");
-        }
-
-        if (creationDate == null) {
-            throw new IllegalArgumentException("creationDate must be not null");
-        }
-
-        if (mainUniformColor == null) {
-            throw new IllegalArgumentException("mainUniformColor must be not null");
-        }
-
-        if (secondaryUniformColor == null) {
-            throw new IllegalArgumentException("secondaryUniform must be not null");
-        }
-
+    public Team(Long id, String name, LocalDate creationDate, String mainColor, String secondaryColor) {
         this.id = id;
         this.name = name;
         this.creationDate = creationDate;
-        this.mainUniformColor = mainUniformColor;
-        this.secondaryUniformColor = secondaryUniformColor;
+        this.mainColor = mainColor;
+        this.secondaryColor = secondaryColor;
     }
 
     public Long getId() {
@@ -50,12 +34,29 @@ public class Team {
         return creationDate;
     }
 
-    public String getMainUniformColor() {
-        return mainUniformColor;
+    public String getMainColor() {
+        return mainColor;
     }
 
-    public String getSecondaryUniformColor() {
-        return secondaryUniformColor;
+    public String getSecondaryColor() {
+        return secondaryColor;
+    }
+
+    public Optional<Player> getPlayer(Long id) {
+        if (!players.containsKey(id)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(players.get(id));
+    }
+
+    public int getCountPlayers() {
+        return players.size();
+    }
+
+    public void add(Player player) {
+        player.join(this);
+        players.put(player.getId(), player);
     }
 
     @Override
