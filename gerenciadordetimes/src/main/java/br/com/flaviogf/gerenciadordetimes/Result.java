@@ -23,7 +23,7 @@ public class Result {
         return new Result("");
     }
 
-    public static Result failure(String error) {
+    public static Result fail(String error) {
         return new Result(error);
     }
 }

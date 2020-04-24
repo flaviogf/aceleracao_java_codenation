@@ -13,6 +13,7 @@ public class Team {
     private final String mainColor;
     private final String secondaryColor;
     private final Map<Long, Player> players = new HashMap<>();
+    private Optional<Player> captain = Optional.empty();
 
     public Team(Long id, String name, LocalDate creationDate, String mainColor, String secondaryColor) {
         this.id = id;
@@ -42,6 +43,10 @@ public class Team {
         return secondaryColor;
     }
 
+    public Optional<Player> getCaptain() {
+        return captain;
+    }
+
     public Optional<Player> getPlayer(Long id) {
         if (!players.containsKey(id)) {
             return Optional.empty();
@@ -52,6 +57,10 @@ public class Team {
 
     public int getCountPlayers() {
         return players.size();
+    }
+
+    public void setCaptain(Player captain) {
+        this.captain = Optional.of(captain);
     }
 
     public void add(Player player) {

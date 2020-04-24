@@ -11,7 +11,7 @@ public class Player {
     private final LocalDate birthday;
     private final Integer overall;
     private final BigDecimal balance;
-    private Optional<Team> team;
+    private Optional<Team> team = Optional.empty();
 
     public Player(Long id, String name, LocalDate birthday, Integer overall, BigDecimal balance) {
         this.id = id;

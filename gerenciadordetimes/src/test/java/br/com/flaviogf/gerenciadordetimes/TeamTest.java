@@ -43,4 +43,12 @@ public class TeamTest {
         assertTrue(FRANK.getTeam().isPresent());
         assertEquals(team, FRANK.getTeam().get());
     }
+
+    @Test
+    public void set_captain_should_set_the_current_captain_of_the_team() {
+        team.setCaptain(FRANK);
+
+        assertTrue(team.getCaptain().isPresent());
+        assertEquals(FRANK, team.getCaptain().get());
+    }
 }
