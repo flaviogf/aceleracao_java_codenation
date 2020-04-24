@@ -16,7 +16,7 @@ public class CreateTeamTest {
     private static final String MAIN_COLOR = "black";
     private static final String SECONDARY_COLOR = "white";
 
-    private static final Team CORINTHIANS = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
+    private Team corinthians;
 
     private TeamRepository teamRepository;
 
@@ -24,6 +24,8 @@ public class CreateTeamTest {
 
     @Before
     public void setUp() {
+        corinthians = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
+
         teamRepository = mock(TeamRepository.class);
 
         createTeam = new CreateTeam(teamRepository);
@@ -40,7 +42,7 @@ public class CreateTeamTest {
 
     @Test
     public void execute_when_id_is_already_in_use_should_return_fail_result() {
-        when(teamRepository.findOne(any())).thenReturn(Optional.of(CORINTHIANS));
+        when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
 
         Result result = createTeam.execute(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
 

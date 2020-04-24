@@ -20,7 +20,7 @@ public class CreatePlayer {
             return Result.fail("Id is already in use");
         }
 
-        Optional<Team> optionalTeam = teamRepository.findOne(id);
+        Optional<Team> optionalTeam = teamRepository.findOne(teamId);
 
         if (!optionalTeam.isPresent()) {
             return Result.fail("Team does not exist");

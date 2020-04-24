@@ -22,20 +22,20 @@ public class PlayerTest {
     private static final Integer OVERALL = 99;
     private static final BigDecimal BALANCE = new BigDecimal(100_000);
 
-    private static final Team CORINTHIANS = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
-
+    private Team corinthians;
     private Player player;
 
     @Before
     public void setUp() {
+        corinthians = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
         player = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
     }
 
     @Test
     public void join_should_join_the_player_to_the_team() {
-        player.join(CORINTHIANS);
+        player.join(corinthians);
 
         assertTrue(player.getTeam().isPresent());
-        assertEquals(CORINTHIANS, player.getTeam().get());
+        assertEquals(corinthians, player.getTeam().get());
     }
 }

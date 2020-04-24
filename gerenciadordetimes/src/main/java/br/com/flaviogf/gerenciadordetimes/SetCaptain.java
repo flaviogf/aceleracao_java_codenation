@@ -9,8 +9,8 @@ public class SetCaptain {
         this.playerRepository = playerRepository;
     }
 
-    public Result execute(Long id) {
-        Optional<Player> optionalPlayer = playerRepository.findOne(id);
+    public Result execute(Long playerId) {
+        Optional<Player> optionalPlayer = playerRepository.findOne(playerId);
 
         if (!optionalPlayer.isPresent()) {
             return Result.fail("Player was not found.");

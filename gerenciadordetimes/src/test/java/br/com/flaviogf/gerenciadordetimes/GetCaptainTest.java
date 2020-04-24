@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class SetCaptainTest {
+public class GetCaptainTest {
     private static final Long TEAM_ID = 1L;
     private static final String TEAM_NAME = "Corinthians";
     private static final LocalDate CREATION_DATE = LocalDate.of(1910, 1, 1);
@@ -27,44 +27,59 @@ public class SetCaptainTest {
     private Team corinthians;
     private Player frank;
 
-    private PlayerRepository playerRepository;
+    private TeamRepository teamRepository;
 
-    private SetCaptain setCaptain;
+    private GetCaptain getCaptain;
 
     @Before
     public void setUp() {
         corinthians = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
         frank = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
 
-        corinthians.add(frank);
+        teamRepository = mock(TeamRepository.class);
 
-        playerRepository = mock(PlayerRepository.class);
-
-        setCaptain = new SetCaptain(playerRepository);
+        getCaptain = new GetCaptain(teamRepository);
     }
 
     @Test
     public void execute_should_return_ok_result() {
-        when(playerRepository.findOne(any())).thenReturn(Optional.of(frank));
+        when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
 
-        Result result = setCaptain.execute(PLAYER_ID);
+        corinthians.add(frank);
+
+        corinthians.setCaptain(frank);
+
+        Result<Long> result = getCaptain.execute(corinthians.getId());
 
         assertTrue(result.isSuccess());
     }
 
     @Test
-    public void execute_should_set_the_new_captain_of_the_team() {
-        when(playerRepository.findOne(any())).thenReturn(Optional.of(frank));
+    public void execute_should_return_the_id_of_captain_of_the_team() {
+        when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
 
-        Result result = setCaptain.execute(PLAYER_ID);
+        corinthians.add(frank);
 
-        assertTrue(corinthians.getCaptain().isPresent());
-        assertEquals(corinthians.getCaptain().get(), frank);
+        corinthians.setCaptain(frank);
+
+        Result<Long> result = getCaptain.execute(corinthians.getId());
+
+        assertTrue(result.getValue().isPresent());
+        assertEquals(frank.getId(), result.getValue().get());
     }
 
     @Test
-    public void execute_when_the_player_was_not_found_should_return_fail_result() {
-        Result result = setCaptain.execute(PLAYER_ID);
+    public void execute_when_team_was_not_found_should_return_the_fail_result() {
+        Result<Long> result = getCaptain.execute(corinthians.getId());
+
+        assertTrue(result.isFailure());
+    }
+
+    @Test
+    public void execute_when_team_does_not_have_a_captain_should_return_the_fail_result() {
+        when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
+
+        Result<Long> result = getCaptain.execute(corinthians.getId());
 
         assertTrue(result.isFailure());
     }
