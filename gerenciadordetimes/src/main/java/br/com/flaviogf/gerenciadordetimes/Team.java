@@ -1,10 +1,10 @@
 package br.com.flaviogf.gerenciadordetimes;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.toList;
 
 public class Team {
     private final Long id;
@@ -57,6 +57,13 @@ public class Team {
 
     public int getCountPlayers() {
         return players.size();
+    }
+
+    public Collection<Player> getPlayers() {
+        return players.values()
+                .stream()
+                .sorted(comparingLong(Player::getId))
+                .collect(toList());
     }
 
     public void setCaptain(Player captain) {
