@@ -124,7 +124,7 @@ public class Team {
     }
 
     private void setTheOldestPlayer(Player player) {
-        if (theOldestPlayer == null || player.getBirthday().isAfter(theOldestPlayer.getBirthday())) {
+        if (theOldestPlayer == null || player.getBirthday().isBefore(theOldestPlayer.getBirthday())) {
             theOldestPlayer = player;
         }
     }

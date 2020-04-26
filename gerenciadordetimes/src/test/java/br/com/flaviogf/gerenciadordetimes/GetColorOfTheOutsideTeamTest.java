@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class GetColorOfTheOutsideTemTest {
+public class GetColorOfTheOutsideTeamTest {
     private static final Long CORINTHIANS_ID = 1L;
     private static final String CORINTHIANS_NAME = "Corinthians";
     private static final LocalDate CORINTHIANS_CREATION_DATE = LocalDate.of(1910, 1, 1);

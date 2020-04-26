@@ -73,9 +73,8 @@ public class TeamTest {
 
     @Test
     public void get_the_oldest_player_should_return_the_oldest_player() {
-        corinthians.add(new Player(2L, PLAYER_NAME, LocalDate.of(1989, 1, 1), OVERALL, SALARY));
+        corinthians.add(new Player(2L, PLAYER_NAME, LocalDate.of(1991, 1, 1), OVERALL, SALARY));
         corinthians.add(frank);
-        corinthians.add(new Player(3L, PLAYER_NAME, LocalDate.of(1988, 1, 1), OVERALL, SALARY));
 
         Optional<Player> theOldestPlayer = corinthians.getTheOldestPlayer();
 
