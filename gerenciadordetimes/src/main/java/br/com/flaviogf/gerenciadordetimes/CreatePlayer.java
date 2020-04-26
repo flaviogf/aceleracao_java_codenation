@@ -13,7 +13,7 @@ public class CreatePlayer {
         this.teamRepository = teamRepository;
     }
 
-    public Result execute(Long id, Long teamId, String name, LocalDate birthday, Integer overall, BigDecimal balance) {
+    public Result<Void> execute(Long id, Long teamId, String name, LocalDate birthday, Integer overall, BigDecimal salary) {
         Optional<Player> existingPlayer = playerRepository.findOne(id);
 
         if (existingPlayer.isPresent()) {
@@ -23,10 +23,10 @@ public class CreatePlayer {
         Optional<Team> optionalTeam = teamRepository.findOne(teamId);
 
         if (!optionalTeam.isPresent()) {
-            return Result.fail("Team does not exist");
+            return Result.fail("Team was not found");
         }
 
-        Player player = new Player(id, name, birthday, overall, balance);
+        Player player = new Player(id, name, birthday, overall, salary);
 
         Team team = optionalTeam.get();
 
@@ -35,3 +35,4 @@ public class CreatePlayer {
         return playerRepository.add(player);
     }
 }
+

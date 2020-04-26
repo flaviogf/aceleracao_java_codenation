@@ -21,7 +21,7 @@ public class GetCaptainTest {
     private static final String PLAYER_NAME = "FRANK";
     private static final LocalDate BIRTHDAY = LocalDate.of(1990, 1, 1);
     private static final Integer OVERALL = 99;
-    private static final BigDecimal BALANCE = new BigDecimal(100_000);
+    private static final BigDecimal SALARY = new BigDecimal(100_000);
 
     private Team corinthians;
     private Player frank;
@@ -33,7 +33,7 @@ public class GetCaptainTest {
     @Before
     public void setUp() {
         corinthians = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
-        frank = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
+        frank = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, SALARY);
 
         teamRepository = mock(TeamRepository.class);
 
@@ -64,8 +64,7 @@ public class GetCaptainTest {
         Result<Optional<Long>> result = getCaptain.execute(corinthians.getId());
 
         assertTrue(result.getValue().isPresent());
-        assertTrue(result.getValue().get().isPresent());
-        assertEquals(frank.getId(), result.getValue().get().get());
+        assertEquals(frank.getId(), result.getValue().get());
     }
 
     @Test
@@ -90,7 +89,6 @@ public class GetCaptainTest {
 
         Result<Optional<Long>> result = getCaptain.execute(corinthians.getId());
 
-        assertTrue(result.getValue().isPresent());
-        assertFalse(result.getValue().get().isPresent());
+        assertFalse(result.getValue().isPresent());
     }
 }

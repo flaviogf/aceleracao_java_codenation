@@ -5,16 +5,14 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class GetPlayersOfTheTeamTest {
+public class GetTheBestPlayerOfTheTeamTest {
     private static final Long TEAM_ID = 1L;
     private static final String TEAM_NAME = "Corinthians";
     private static final LocalDate CREATION_DATE = LocalDate.of(1910, 1, 1);
@@ -32,7 +30,7 @@ public class GetPlayersOfTheTeamTest {
 
     private TeamRepository teamRepository;
 
-    private GetPlayersOfTheTeam getPlayersOfTheTeam;
+    private GetTheBestPlayerOfTheTeam getTheBestPlayerOfTheTeam;
 
     @Before
     public void setUp() {
@@ -41,7 +39,7 @@ public class GetPlayersOfTheTeamTest {
 
         teamRepository = mock(TeamRepository.class);
 
-        getPlayersOfTheTeam = new GetPlayersOfTheTeam(teamRepository);
+        getTheBestPlayerOfTheTeam = new GetTheBestPlayerOfTheTeam(teamRepository);
     }
 
     @Test
@@ -50,27 +48,36 @@ public class GetPlayersOfTheTeamTest {
 
         corinthians.add(frank);
 
-        Result<List<Long>> result = getPlayersOfTheTeam.execute(TEAM_ID);
+        Result<Optional<Long>> result = getTheBestPlayerOfTheTeam.execute(TEAM_ID);
 
         assertTrue(result.isSuccess());
     }
 
     @Test
-    public void execute_should_return_a_list_with_the_players_of_the_team() {
+    public void execute_should_the_id_of_the_best_player_of_the_team() {
         when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
 
         corinthians.add(frank);
 
-        Result<List<Long>> result = getPlayersOfTheTeam.execute(TEAM_ID);
+        Result<Optional<Long>> result = getTheBestPlayerOfTheTeam.execute(TEAM_ID);
 
-        assertEquals(1, result.getValue().size());
-        assertEquals(PLAYER_ID, result.getValue().get(0));
+        assertTrue(result.getValue().isPresent());
+        assertEquals(frank.getId(), result.getValue().get());
     }
 
     @Test
     public void execute_when_the_team_does_not_exist_should_return_fail_result() {
-        Result<List<Long>> result = getPlayersOfTheTeam.execute(TEAM_ID);
+        Result<Optional<Long>> result = getTheBestPlayerOfTheTeam.execute(TEAM_ID);
 
         assertTrue(result.isFailure());
+    }
+
+    @Test
+    public void execute_when_the_team_does_not_have_a_player_should_return_an_empty_optional() {
+        when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
+
+        Result<Optional<Long>> result = getTheBestPlayerOfTheTeam.execute(TEAM_ID);
+
+        assertFalse(result.getValue().isPresent());
     }
 }

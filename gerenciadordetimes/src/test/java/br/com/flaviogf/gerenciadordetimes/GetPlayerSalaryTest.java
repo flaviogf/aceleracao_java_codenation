@@ -8,9 +8,11 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class GetPlayerNameTest {
+public class GetPlayerSalaryTest {
     private static final Long PLAYER_ID = 1L;
     private static final String PLAYER_NAME = "FRANK";
     private static final LocalDate BIRTHDAY = LocalDate.of(1990, 1, 1);
@@ -21,7 +23,7 @@ public class GetPlayerNameTest {
 
     private PlayerRepository playerRepository;
 
-    private GetPlayerName getPlayerName;
+    private GetPlayerSalary getPlayerSalary;
 
     @Before
     public void setUp() {
@@ -29,23 +31,23 @@ public class GetPlayerNameTest {
 
         playerRepository = mock(PlayerRepository.class);
 
-        getPlayerName = new GetPlayerName(playerRepository);
+        getPlayerSalary = new GetPlayerSalary(playerRepository);
     }
 
     @Test
-    public void execute_should_return_the_player_name() {
+    public void execute_should_return_the_player_salary() {
         when(playerRepository.findOne(any())).thenReturn(Optional.of(frank));
 
-        Optional<String> playerName = getPlayerName.execute(PLAYER_ID);
+        Optional<BigDecimal> salary = getPlayerSalary.execute(PLAYER_ID);
 
-        assertTrue(playerName.isPresent());
-        assertEquals(PLAYER_NAME, playerName.get());
+        assertTrue(salary.isPresent());
+        assertEquals(SALARY, salary.get());
     }
 
     @Test
     public void execute_when_the_player_does_not_exist_should_return_an_empty_optional() {
-        Optional<String> playerName = getPlayerName.execute(PLAYER_ID);
+        Optional<BigDecimal> salary = getPlayerSalary.execute(PLAYER_ID);
 
-        assertFalse(playerName.isPresent());
+        assertFalse(salary.isPresent());
     }
 }

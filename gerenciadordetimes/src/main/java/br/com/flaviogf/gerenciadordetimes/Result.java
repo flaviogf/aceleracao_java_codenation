@@ -1,7 +1,5 @@
 package br.com.flaviogf.gerenciadordetimes;
 
-import java.util.Optional;
-
 public class Result<T> {
     private final T value;
     private final String error;
@@ -19,12 +17,8 @@ public class Result<T> {
         return !isSuccess();
     }
 
-    public Optional<T> getValue() {
-        if (value == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(value);
+    public T getValue() {
+        return value;
     }
 
     public String getError() {

@@ -13,7 +13,10 @@ public class Team {
     private final String mainColor;
     private final String secondaryColor;
     private final Map<Long, Player> players = new HashMap<>();
-    private Optional<Player> captain = Optional.empty();
+    private Player captain;
+    private Player playerWithTheBiggestSalary;
+    private Player theOldestPlayer;
+    private Player theBestPlayer;
 
     public Team(Long id, String name, LocalDate creationDate, String mainColor, String secondaryColor) {
         this.id = id;
@@ -43,8 +46,12 @@ public class Team {
         return secondaryColor;
     }
 
-    public Optional<Player> getCaptain() {
-        return captain;
+    public String getOutsideColor(Team other) {
+        if (other.getMainColor().equals(mainColor)) {
+            return getSecondaryColor();
+        }
+
+        return getMainColor();
     }
 
     public Optional<Player> getPlayer(Long id) {
@@ -55,8 +62,36 @@ public class Team {
         return Optional.of(players.get(id));
     }
 
-    public int getCountPlayers() {
-        return players.size();
+    public Optional<Player> getCaptain() {
+        if (captain == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(captain);
+    }
+
+    public Optional<Player> getPlayerWithTheBiggestSalary() {
+        if (playerWithTheBiggestSalary == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(playerWithTheBiggestSalary);
+    }
+
+    public Optional<Player> getTheOldestPlayer() {
+        if (theOldestPlayer == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(theOldestPlayer);
+    }
+
+    public Optional<Player> getTheBestPlayer() {
+        if (theBestPlayer == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(theBestPlayer);
     }
 
     public Collection<Player> getPlayers() {
@@ -66,13 +101,38 @@ public class Team {
                 .collect(toList());
     }
 
-    public void setCaptain(Player captain) {
-        this.captain = Optional.of(captain);
+    public int getCountPlayers() {
+        return players.size();
     }
 
     public void add(Player player) {
-        player.join(this);
         players.put(player.getId(), player);
+        setPlayerWithTheBiggestSalary(player);
+        setTheOldestPlayer(player);
+        setTheBestPlayer(player);
+        player.join(this);
+    }
+
+    public void setCaptain(Player captain) {
+        this.captain = captain;
+    }
+
+    private void setPlayerWithTheBiggestSalary(Player player) {
+        if (playerWithTheBiggestSalary == null || player.getSalary().compareTo(playerWithTheBiggestSalary.getSalary()) > 0) {
+            playerWithTheBiggestSalary = player;
+        }
+    }
+
+    private void setTheOldestPlayer(Player player) {
+        if (theOldestPlayer == null || player.getBirthday().isAfter(theOldestPlayer.getBirthday())) {
+            theOldestPlayer = player;
+        }
+    }
+
+    private void setTheBestPlayer(Player player) {
+        if (theBestPlayer == null || theBestPlayer.getOverall() < player.getOverall()) {
+            theBestPlayer = player;
+        }
     }
 
     @Override

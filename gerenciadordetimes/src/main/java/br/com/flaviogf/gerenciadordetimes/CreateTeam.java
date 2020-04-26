@@ -10,11 +10,11 @@ public class CreateTeam {
         this.teamRepository = teamRepository;
     }
 
-    public Result execute(Long id, String name, LocalDate creationDate, String mainColor, String secondaryColor) {
+    public Result<Void> execute(Long id, String name, LocalDate creationDate, String mainColor, String secondaryColor) {
         Optional<Team> existingTeam = teamRepository.findOne(id);
 
         if (existingTeam.isPresent()) {
-            return Result.fail("Id is already in use.");
+            return Result.fail("Id is already in use");
         }
 
         Team team = new Team(id, name, creationDate, mainColor, secondaryColor);

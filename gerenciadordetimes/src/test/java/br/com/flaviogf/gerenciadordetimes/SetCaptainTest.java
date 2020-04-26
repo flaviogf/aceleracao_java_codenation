@@ -22,7 +22,7 @@ public class SetCaptainTest {
     private static final String PLAYER_NAME = "FRANK";
     private static final LocalDate BIRTHDAY = LocalDate.of(1990, 1, 1);
     private static final Integer OVERALL = 99;
-    private static final BigDecimal BALANCE = new BigDecimal(100_000);
+    private static final BigDecimal SALARY = new BigDecimal(100_000);
 
     private Team corinthians;
     private Player frank;
@@ -34,7 +34,7 @@ public class SetCaptainTest {
     @Before
     public void setUp() {
         corinthians = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
-        frank = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
+        frank = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, SALARY);
 
         corinthians.add(frank);
 
@@ -47,7 +47,7 @@ public class SetCaptainTest {
     public void execute_should_return_ok_result() {
         when(playerRepository.findOne(any())).thenReturn(Optional.of(frank));
 
-        Result result = setCaptain.execute(PLAYER_ID);
+        Result<Void> result = setCaptain.execute(PLAYER_ID);
 
         assertTrue(result.isSuccess());
     }
@@ -56,7 +56,7 @@ public class SetCaptainTest {
     public void execute_should_set_the_new_captain_of_the_team() {
         when(playerRepository.findOne(any())).thenReturn(Optional.of(frank));
 
-        Result result = setCaptain.execute(PLAYER_ID);
+        Result<Void> result = setCaptain.execute(PLAYER_ID);
 
         assertTrue(corinthians.getCaptain().isPresent());
         assertEquals(corinthians.getCaptain().get(), frank);
@@ -64,7 +64,7 @@ public class SetCaptainTest {
 
     @Test
     public void execute_when_the_player_was_not_found_should_return_fail_result() {
-        Result result = setCaptain.execute(PLAYER_ID);
+        Result<Void> result = setCaptain.execute(PLAYER_ID);
 
         assertTrue(result.isFailure());
     }

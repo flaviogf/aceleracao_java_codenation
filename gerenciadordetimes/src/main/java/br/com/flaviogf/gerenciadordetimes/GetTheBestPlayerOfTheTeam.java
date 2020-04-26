@@ -2,10 +2,10 @@ package br.com.flaviogf.gerenciadordetimes;
 
 import java.util.Optional;
 
-public class GetCaptain {
+public class GetTheBestPlayerOfTheTeam {
     private final TeamRepository teamRepository;
 
-    public GetCaptain(TeamRepository teamRepository) {
+    public GetTheBestPlayerOfTheTeam(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
 
@@ -18,16 +18,12 @@ public class GetCaptain {
 
         Team team = optionalTeam.get();
 
-        Optional<Player> optionalCaptain = team.getCaptain();
-
-        if (!optionalCaptain.isPresent()) {
+        if (!team.getTheBestPlayer().isPresent()) {
             return Result.ok(Optional.empty());
         }
 
-        Player captain = optionalCaptain.get();
+        Player player = team.getTheBestPlayer().get();
 
-        Long id = captain.getId();
-
-        return Result.ok(Optional.of(id));
+        return Result.ok(Optional.of(player.getId()));
     }
 }

@@ -22,7 +22,7 @@ public class CreatePlayerTest {
     private static final String PLAYER_NAME = "FRANK";
     private static final LocalDate BIRTHDAY = LocalDate.of(1990, 1, 1);
     private static final Integer OVERALL = 99;
-    private static final BigDecimal BALANCE = new BigDecimal(100_000);
+    private static final BigDecimal SALARY = new BigDecimal(100_000);
 
     private Team corinthians;
     private Player frank;
@@ -35,7 +35,7 @@ public class CreatePlayerTest {
     @Before
     public void setUp() {
         corinthians = new Team(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
-        frank = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
+        frank = new Player(PLAYER_ID, PLAYER_NAME, BIRTHDAY, OVERALL, SALARY);
 
         playerRepository = mock(PlayerRepository.class);
         teamRepository = mock(TeamRepository.class);
@@ -48,7 +48,7 @@ public class CreatePlayerTest {
         when(playerRepository.add(any())).thenReturn(Result.ok());
         when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
 
-        Result result = createPlayer.execute(PLAYER_ID, TEAM_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
+        Result<Void> result = createPlayer.execute(PLAYER_ID, TEAM_ID, PLAYER_NAME, BIRTHDAY, OVERALL, SALARY);
 
         assertTrue(result.isSuccess());
     }
@@ -58,7 +58,7 @@ public class CreatePlayerTest {
         when(playerRepository.add(any())).thenReturn(Result.ok());
         when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
 
-        createPlayer.execute(PLAYER_ID, TEAM_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
+        createPlayer.execute(PLAYER_ID, TEAM_ID, PLAYER_NAME, BIRTHDAY, OVERALL, SALARY);
 
         assertEquals(1, corinthians.getCountPlayers());
     }
@@ -67,14 +67,14 @@ public class CreatePlayerTest {
     public void execute_when_id_is_already_in_use_should_return_fail_result() {
         when(playerRepository.findOne(any())).thenReturn(Optional.of(frank));
 
-        Result result = createPlayer.execute(PLAYER_ID, TEAM_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
+        Result<Void> result = createPlayer.execute(PLAYER_ID, TEAM_ID, PLAYER_NAME, BIRTHDAY, OVERALL, SALARY);
 
         assertTrue(result.isFailure());
     }
 
     @Test
     public void execute_when_team_does_not_exist_should_return_fail_result() {
-        Result result = createPlayer.execute(PLAYER_ID, TEAM_ID, PLAYER_NAME, BIRTHDAY, OVERALL, BALANCE);
+        Result<Void> result = createPlayer.execute(PLAYER_ID, TEAM_ID, PLAYER_NAME, BIRTHDAY, OVERALL, SALARY);
 
         assertTrue(result.isFailure());
     }

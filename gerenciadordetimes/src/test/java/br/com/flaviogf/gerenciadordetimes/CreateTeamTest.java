@@ -35,7 +35,7 @@ public class CreateTeamTest {
     public void execute_should_return_ok_result() {
         when(teamRepository.add(any())).thenReturn(Result.ok());
 
-        Result result = createTeam.execute(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
+        Result<Void> result = createTeam.execute(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
 
         assertTrue(result.isSuccess());
     }
@@ -44,7 +44,7 @@ public class CreateTeamTest {
     public void execute_when_id_is_already_in_use_should_return_fail_result() {
         when(teamRepository.findOne(any())).thenReturn(Optional.of(corinthians));
 
-        Result result = createTeam.execute(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
+        Result<Void> result = createTeam.execute(TEAM_ID, TEAM_NAME, CREATION_DATE, MAIN_COLOR, SECONDARY_COLOR);
 
         assertTrue(result.isFailure());
     }

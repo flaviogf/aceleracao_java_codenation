@@ -9,11 +9,11 @@ public class SetCaptain {
         this.playerRepository = playerRepository;
     }
 
-    public Result execute(Long playerId) {
+    public Result<Void> execute(Long playerId) {
         Optional<Player> optionalPlayer = playerRepository.findOne(playerId);
 
         if (!optionalPlayer.isPresent()) {
-            return Result.fail("Player was not found.");
+            return Result.fail("Player was not found");
         }
 
         Player player = optionalPlayer.get();

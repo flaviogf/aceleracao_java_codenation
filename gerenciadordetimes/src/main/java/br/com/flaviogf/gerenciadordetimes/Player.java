@@ -10,15 +10,15 @@ public class Player {
     private final String name;
     private final LocalDate birthday;
     private final Integer overall;
-    private final BigDecimal balance;
-    private Optional<Team> team = Optional.empty();
+    private final BigDecimal salary;
+    private Team team;
 
-    public Player(Long id, String name, LocalDate birthday, Integer overall, BigDecimal balance) {
+    public Player(Long id, String name, LocalDate birthday, Integer overall, BigDecimal salary) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
         this.overall = overall;
-        this.balance = balance;
+        this.salary = salary;
     }
 
     public Long getId() {
@@ -37,16 +37,20 @@ public class Player {
         return overall;
     }
 
-    public BigDecimal getBalance() {
-        return balance;
+    public BigDecimal getSalary() {
+        return salary;
     }
 
     public Optional<Team> getTeam() {
-        return team;
+        if (team == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(team);
     }
 
     public void join(Team team) {
-        this.team = Optional.of(team);
+        this.team = team;
     }
 
     @Override

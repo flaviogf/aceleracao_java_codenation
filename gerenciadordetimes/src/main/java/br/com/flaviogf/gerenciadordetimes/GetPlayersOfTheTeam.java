@@ -16,7 +16,7 @@ public class GetPlayersOfTheTeam {
         Optional<Team> optionalTeam = teamRepository.findOne(teamId);
 
         if (!optionalTeam.isPresent()) {
-            return Result.fail("Team was not found.");
+            return Result.fail("Team was not found");
         }
 
         Team team = optionalTeam.get();
@@ -24,6 +24,7 @@ public class GetPlayersOfTheTeam {
         List<Long> playersId = team.getPlayers()
                 .stream()
                 .map(Player::getId)
+                .sorted()
                 .collect(toList());
 
         return Result.ok(playersId);
