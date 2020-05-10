@@ -39,6 +39,18 @@ public class Car {
         return new Builder();
     }
 
+    public boolean hasDriverUnderTheAge() {
+        return driver.isUnderTheAge();
+    }
+
+    public boolean hasDriverWithoutScore() {
+        return driver.isWithoutScore();
+    }
+
+    public boolean hasNotSeniorDriver() {
+        return driver.isNotSenior();
+    }
+
     public static class Builder {
         private Driver driver;
         private String plate;

@@ -41,6 +41,18 @@ public class Driver {
         return new Builder();
     }
 
+    public boolean isUnderTheAge() {
+        return age < 18;
+    }
+
+    public boolean isWithoutScore() {
+        return score > 20;
+    }
+
+    public boolean isNotSenior() {
+        return age <= 55;
+    }
+
     public static class Builder {
         private String name;
         private Integer age;
